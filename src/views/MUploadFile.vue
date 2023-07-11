@@ -41,7 +41,12 @@
         </div>
         <!-- progress dialog -->
         <el-dialog v-model="isUploading" title="Warning" width="62%" center>
-          <el-progress :text-inside="true" :stroke-width="26" :percentage="progress" class="mx-4 my-8" />
+          <el-progress
+            :text-inside="true"
+            :stroke-width="26"
+            :percentage="progress"
+            class="mx-4 my-8"
+          />
         </el-dialog>
         <!-- /End replace -->
       </div>

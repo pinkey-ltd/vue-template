@@ -48,7 +48,15 @@
     </div>
   </main> -->
   <!-- upload Modals -->
-  <el-dialog v-model="visible" :title="title" width="40%" align-center center draggable :before-close="handleClose">
+  <el-dialog
+    v-model="visible"
+    :title="title"
+    width="40%"
+    align-center
+    center
+    draggable
+    :before-close="handleClose"
+  >
     <el-steps :active="step" finish-status="success">
       <el-step title="新建服务" />
       <el-step title="上传文件" />
@@ -62,7 +70,12 @@
         </el-form-item>
         <el-form-item label="类型">
           <el-select v-model="form.type" placeholder="请选择…">
-            <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option
+              v-for="item in typeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="备注">
@@ -73,14 +86,23 @@
     <!-- upload step -->
     <div v-show="step == 2">
       <!-- 上传中 -->
-      <slot v-if="isUploading" name='loading'>
-        <el-progress :text-inside="true" :stroke-width="26" :percentage="progress" class="mx-4 my-8" />
+      <slot v-if="isUploading" name="loading">
+        <el-progress
+          :text-inside="true"
+          :stroke-width="26"
+          :percentage="progress"
+          class="mx-4 my-8"
+        />
       </slot>
       <!-- 上传完毕 -->
       <slot name="uploaded" v-else-if="lastFileData && lastFileData.loaded">
         <ul class="h-64 overflow-auto border-2 border-gray-200 divide-gray-200">
-          <li v-for="file in filesList" :key="file.uid" class=" ml-4 py-2 flex">
-            <CircleCheck v-if="file.status == 'success'" style="width: 1rem; height: 1rem; color: green" class="ml-2" />
+          <li v-for="file in filesList" :key="file.uid" class="ml-4 py-2 flex">
+            <CircleCheck
+              v-if="file.status == 'success'"
+              style="width: 1rem; height: 1rem; color: green"
+              class="ml-2"
+            />
             <div v-else>
               <el-popover placement="top-end" :width="400">
                 <template #reference>
@@ -95,26 +117,41 @@
               {{ file.name }}
             </span>
             <button class="delete-icon" @click="reomveFile(file.uid)">
-              <CircleCloseFilled style="width: 1rem; height: 1rem; margin-left: 0.5rem; color: #a8abb2;" />
+              <CircleCloseFilled
+                style="width: 1rem; height: 1rem; margin-left: 0.5rem; color: #a8abb2"
+              />
             </button>
           </li>
         </ul>
       </slot>
       <!-- 默认 -->
-      <slot v-else name='default'>
-        <div class="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+      <slot v-else name="default">
+        <div
+          class="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
           <div class="mt-1 sm:mt-0 sm:col-start-2 sm:col-span-2 justify-center w-full">
-            <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+            <div
+              class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+            >
               <div class="space-y-1 text-center">
                 <el-icon size="36px" color="#a8abb2">
                   <DocumentAdd class="mx-auto h-12 w-12 text-gray-400" />
                 </el-icon>
                 <div class="flex text-sm text-gray-600">
-                  <label for="file-upload"
-                    class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none ">
+                  <label
+                    for="file-upload"
+                    class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none"
+                  >
                     <span>点击上传目录 </span>
-                    <input id="file-upload" name="file-upload" type="file" class="sr-only" webkitdirectory multiple
-                      @change="handleFileChange" />
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      class="sr-only"
+                      webkitdirectory
+                      multiple
+                      @change="handleFileChange"
+                    />
                   </label>
                   <p class="pl-1">或 拖拽文件至此</p>
                 </div>
@@ -125,9 +162,7 @@
       </slot>
     </div>
     <!-- setting step -->
-    <div v-show="step == 3">
-
-    </div>
+    <div v-show="step == 3"></div>
     <el-divider />
     <span class="grid grid-cols-3 gap-2 place-items-center">
       <el-button @click="step > 2 ? step-- : null">上一步</el-button>
@@ -152,8 +187,8 @@ type Props = {
 const emits = defineEmits(['closeEmit', 'refreshEmit'])
 withDefaults(defineProps<Props>(), {
   visible: () => false,
-  title: () => "成果上传",
-  uri: () => "http://localhost:8080/mupload/1"
+  title: () => '成果上传',
+  uri: () => 'http://localhost:8080/mupload/1'
 })
 
 type UploadStatus = 'ready' | 'loading' | 'success' | 'error'
@@ -174,13 +209,13 @@ const progress = ref(0)
 const step = ref(1)
 // form
 const form = reactive({
-	id: "",
-	name: "",
-	type: "",
-	url: "",
-	status: "DRAFT",
-	comments: "",
-});
+  id: '',
+  name: '',
+  type: '',
+  url: '',
+  status: 'DRAFT',
+  comments: ''
+})
 
 const filesList = ref<UploadFile[]>([])
 // upload files handle
@@ -234,42 +269,39 @@ const handleFileUpload = (e: Event) => {
 }
 
 const nextStep = () => {
-	switch (step.value) {
-		// submit MapService
-		case 1:
-			let variables = { ms: form };
-			createHandle(variables).then((result) => {
-				if (result.error) {
-					console.log(result.error.message)
-					ElMessage.error(result.error.message);
-				} else {
-					// ElMessage.success("更新成功！");
-					emits("refreshEmit")
-					console.log(result.data.addMapService.id)
-					form.id = result.data.addMapService.id
-					step.value++;
-				}
-			});
-			break;
-		case 2:
-			step.value++;
-			// file queue progress
-			
-			break;
+  switch (step.value) {
+    // submit MapService
+    case 1:
+      let variables = { ms: form }
+      createHandle(variables).then((result) => {
+        if (result.error) {
+          console.log(result.error.message)
+          ElMessage.error(result.error.message)
+        } else {
+          // ElMessage.success("更新成功！");
+          emits('refreshEmit')
+          console.log(result.data.addMapService.id)
+          form.id = result.data.addMapService.id
+          step.value++
+        }
+      })
+      break
+    case 2:
+      step.value++
+      // file queue progress
 
-	}
-
+      break
+  }
 }
 
-
 const cancelHandle = () => {
-  emits("closeEmit")
+  emits('closeEmit')
 }
 
 const handleClose = (done: () => void) => {
   // 新建hooks回调父组件方法，解决props readonly问题
   // 同步visible 和父组件dialogVisible
-  emits("closeEmit")
+  emits('closeEmit')
   done()
 }
 
